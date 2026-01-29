@@ -116,6 +116,9 @@ module render_frame() {
 // 6. MODULES: COVER (Clean Gates)
 // ==========================================================
 
+// Add a variable to control the number of wire gates
+num_gates = 3; // Set the number of wire gates here
+
 module render_cover() {
     c_inner_w = pcb_w + (fit_gap * 2);
     c_inner_h = pcb_h + (fit_gap * 2);
@@ -157,24 +160,38 @@ module render_cover() {
         // 2. CLEAN WIRE GATES (Cutting through floor and wall)
         // Positioned at the top (open side) of the cover, extending down
         gate_full_h = wire_gate_h + cover_thick; // Ensure it breaks the floor
-        gate_y_off = shift_h - fit_gap - wall_t - 1;
-        gate_x_off = shift_w - fit_gap - wall_t - 1;
 
         // North Gate
-        if (show_gates[0]) translate([io_w/2 - wire_gate_w/2, shift_h + pcb_h + fit_gap - 1, cover_depth + cover_thick - wire_gate_h]) 
-            cube([wire_gate_w, wall_t + 2, wire_gate_h + 1]);
+        if (show_gates[0]) {
+            for (i = [0 : num_gates - 1]) {
+                translate([io_w/(num_gates + 1) * (i + 1) - wire_gate_w/2, shift_h + pcb_h + fit_gap - 1, cover_depth + cover_thick - wire_gate_h]) 
+                    cube([wire_gate_w, wall_t + 2, wire_gate_h + 1]);
+            }
+        }
         
         // South Gate
-        if (show_gates[1]) translate([io_w/2 - wire_gate_w/2, shift_h - fit_gap - wall_t - 1, cover_depth + cover_thick - wire_gate_h]) 
-            cube([wire_gate_w, wall_t + 2, wire_gate_h + 1]);
+        if (show_gates[1]) {
+            for (i = [0 : num_gates - 1]) {
+                translate([io_w/(num_gates + 1) * (i + 1) - wire_gate_w/2, shift_h - fit_gap - wall_t - 1, cover_depth + cover_thick - wire_gate_h]) 
+                    cube([wire_gate_w, wall_t + 2, wire_gate_h + 1]);
+            }
+        }
 
         // East Gate
-        if (show_gates[2]) translate([shift_w + pcb_w + fit_gap - 1, io_h/2 - wire_gate_w/2, cover_depth + cover_thick - wire_gate_h]) 
-            cube([wall_t + 2, wire_gate_w, wire_gate_h + 1]);
+        if (show_gates[2]) {
+            for (i = [0 : num_gates - 1]) {
+                translate([shift_w + pcb_w + fit_gap - 1, io_h/(num_gates + 1) * (i + 1) - wire_gate_w/2, cover_depth + cover_thick - wire_gate_h]) 
+                    cube([wall_t + 2, wire_gate_w, wire_gate_h + 1]);
+            }
+        }
 
         // West Gate
-        if (show_gates[3]) translate([shift_w - fit_gap - wall_t - 1, io_h/2 - wire_gate_w/2, cover_depth + cover_thick - wire_gate_h]) 
-            cube([wall_t + 2, wire_gate_w, wire_gate_h + 1]);
+        if (show_gates[3]) {
+            for (i = [0 : num_gates - 1]) {
+                translate([shift_w - fit_gap - wall_t - 1, io_h/(num_gates + 1) * (i + 1) - wire_gate_w/2, cover_depth + cover_thick - wire_gate_h]) 
+                    cube([wall_t + 2, wire_gate_w, wire_gate_h + 1]);
+            }
+        }
     }
 }
 

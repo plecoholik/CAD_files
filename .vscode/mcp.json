@@ -1,0 +1,16 @@
+{
+  "servers": {
+    "openscad-mcp": {
+      "command": ".conda/Scripts/uv.exe",
+      "args": [
+        "run",
+        "--with",
+        "git+https://github.com/quellant/openscad-mcp.git",
+        "openscad-mcp"
+      ],
+      "env": {
+        "OPENSCAD_PATH": "d:/openscad/openscad.exe"
+      }
+    }
+  }
+}
